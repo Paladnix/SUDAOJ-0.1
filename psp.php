@@ -12,29 +12,25 @@
 		$Sinput = $_POST["Sinput"];
 		$Soutput = $_POST["Soutput"];
 		$author = $_POST["author"];
-		echo $_POST["fileIN"];
+	//	echo $_POST["fileIN"];
 	}
 	else
-	{
-		die("Not Post!");
-	}
+		header("location:Error.php?error=POST message Error. Please try again.");
 	$contest = $_GET["cid"];
 	$visable = $_GET["visable"];
 	if($visable != 0)
 		$visable = 1;
-	$DB =new mysqli("localhost", dbUserName, dbPassword, dbName);
+	$DB =new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 	if( $DB->connect_error )
-	{
-		die("connect fault<br>");
-	}
-	$sql = "insert into problemLib (problemName, context, inputCase, outputCase,input, output, timeLimit, memoryLimit, author, contest, visable) values('$proname','$problem','$Sinput','$Soutput','$input','$output','$timeLimit','$memoryLimit','$author','$procontest','$visable');";
+        header("location:Error.php?error=Connect to SQL failed. Please connect adminixtrator.");
+	$sql = "insert into ProblemLib (problemName, context, inputCase, outputCase,input, output, timeLimit, memoryLimit, author, contest, visable) values('$proname','$problem','$Sinput','$Soutput','$input','$output','$timeLimit','$memoryLimit','$author','$procontest','$visable');";
 	
 	$result = $DB->query($sql);	
-	if( $result > 0 )
+	if( $result != 0 )
 	{
-		$sql = "select count(pid) as num from problemLib;";
+		$sql = "select count(pid) as num from ProblemLib;";
 		$result = $DB->query($sql);
-		if( $result->num_rows > 0 )
+		if( $result->num_rows != 0 )
 		{
 			$ret = $result->fetch_assoc();
 			$pid = $ret["num"];
@@ -43,23 +39,19 @@
 			if(!is_dir($fpath))
 			{
 				if( !mkdir($fpath) )
-					echo "mkdir Error<br>";
+					header("location:Error.php?error=Can't mkdir for this problem's IN_OUT file.");
 			}
 			chmod($fpath, 0777);
 			
 			$IN = $fpath."/IN";
 			$OUT = $fpath."/OUT";
-		
-	//		echo $IN."<br>";
-	//		echo $OUT."<br>";
+	
 
 			if($_FILES["fileIN"]["error"] == 0)
 				echo "Upload Succefully<br>";
 			if($_FILES["fileOUT"]['error'] == 0)
 				echo "Upload Succefully<br>";
 
-//			echo $_FILES["fileIN"]["tmp_name"]."<br>";
-//			echo $_FILES["fileOUT"]["tmp_name"]."<br>";
 
 			if(!move_uploaded_file($_FILES["fileIN"]["tmp_name"], $IN))
 				echo "Upload file Failed!<br>";
@@ -76,7 +68,11 @@
 
 			$sql = "update problemLib set filein='$IN' , fileout='$OUT' where pid='$pid';";
 			$result = $DB->query($sql);
-		}
+        }
+        else
+        {
+            header("location:Error.php?error=Nothing in the SQL.");
+        }
 	}
 	else 
 		header("Location:ps.php");
