@@ -2,6 +2,10 @@
 require('head.php');
 $cid = $_GET['cid'];
 $visable = $_GET['visable'];
+if($cid == "")
+    $cid = 0;
+if($visable == "")
+    $visable = 1;
 ?>
 <div class="container" style="margin-top:100px;">
 <div class="col-sm-2"></div>
@@ -11,7 +15,7 @@ $visable = $_GET['visable'];
 		<div class="panel-body" style="padding-top:20px">
 
 		<?php
-			echo '<form class="form-horizontal" method="post" action="psp.php?cid='.$cid.'&visable='.$visable.'" enctype="multipart/form-data">';
+			echo '<form class="form-horizontal" method="POST" action="psp.php?cid='.$cid.'&visable='.$visable.'" enctype="multipart/form-data">';
 		?>
 				<div class="form-group">
 					<label class="col-lg-2 control-label">题目名称</label>
@@ -40,14 +44,6 @@ $visable = $_GET['visable'];
 				<div class="form-group">
 					<label class="col-lg-2 control-label">题目描述</label>
 					<div class="col-lg-10">
-					<!--
-					   <script type="text/javascript" charset="utf-8" src="editer/ueditor.config.js"></script>
-					   <script type="text/javascript" charset="utf-8" src="editer/ueditor.all.min.js"> </script>
-					   <script type="text/javascript" charset="utf-8" src="editer/lang/zh-cn/zh-cn.js"></script>
-					<div>
-						<script id="editor" type="text/plain" style="width:100px;height:200px;"></script>
-					</div>
-					-->
 						<textarea type="text" class="form-control" style="height:150px" name=problem>
 						</textarea>
 					</div>

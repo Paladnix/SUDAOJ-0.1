@@ -7,10 +7,10 @@ else $uname = $_SESSION['uname'];
 
 require('config.php');
 
+$pid = $_GET['pid'];
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	$compiler = $_POST['compiler'];
-	$pid = $_POST['pid'];
 }
 else 
 {
@@ -22,20 +22,19 @@ if($DB->connect_error)
     header("Location:Error.php?error=Can't link to the SQL; Please connect the Administrator.&code=1");
 
 $time = date("h:i:sa-Y-m-d");
-$sql = "insert into Status (problemID, submitTime, author, compiler) values ('$pid','$time','$uname','$compiler');";
+
+$sql = "insert into Status (problemID, submitTime, author, compiler) values ('$pid','$time','$uname','$compiler'); select @@IDENTITY as ID;";
+
 $result = $DB->query($sql);
-if($result <= 0)
-    header("Location:Error.php?error=Can't insert into the SQL; Please submit again.");
-$sql = "select MAX(runID) as num from status;";
-$result = $DB->query($sql);
-if($result->num_rows <= 0)
-    header("Location:Error.php?error=Can't insert into the SQL; Please submit again.");
 $row = $result->fetch_assoc();
-$runID = $row['num'];
+
+$runID = $row['ID'];
 
 mkdir("userCode");
 chmod("userCode", 0777);
+
 $fpath = "userCode/".$runID."/";
+
 echo $fpath."<br>";
 
 	if(!is_dir($fpath))
@@ -60,7 +59,7 @@ echo $fpath."<br>";
 	else echo "Upload file success.<br>";
 
 // 修改题目提交数据
-	$sql = "update problemLib set submited=submited+1 where pid = '".$pid."';";
+	$sql = "update ProblemLib set submited=submited+1 where pid = '".$pid."';";
 	$result = $DB->query($sql);
 	if($result <= 0)
 	{
@@ -68,6 +67,10 @@ echo $fpath."<br>";
 		header("Location:problemlist.php");
 	}
 
+
+// Judge
+// 
+// 
 	$codefile = $fpath.$codefile;
 
 	$sh = $compiler." ".$codefile;
@@ -100,19 +103,19 @@ echo $fpath."<br>";
 		$status= "Accepted";
 
 		$sql = "update problemLib set accepted=accepted+1 where pid = '".$pid."';";
-	$result = $DB->query($sql);
-	if($result <= 0)
-	{
-		echo "Update Submit Error<br>";
-		header("Location:problemlist.php");
-	}
-	$sql = "update problemLib set ratio=accepted/submited where pid = '".$pid."';";
-	$result = $DB->query($sql);
-	if($result <= 0)
-	{
-		echo "Update Submit Error<br>";
-		header("Location:problemlist.php");
-	}
+    	$result = $DB->query($sql);
+    	if($result <= 0)
+    	{
+    		echo "Update Submit Error<br>";
+    		header("Location:problemlist.php");
+    	}
+    	$sql = "update problemLib set ratio=accepted/submited where pid = '".$pid."';";
+    	$result = $DB->query($sql);
+    	if($result <= 0)
+    	{
+    		echo "Update Submit Error<br>";
+	    	header("Location:problemlist.php");
+    	}
 		header("Location:problem.php?id=$pid&status=$status");
-	}
+    }
 ?>

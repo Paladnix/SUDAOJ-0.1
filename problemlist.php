@@ -31,7 +31,7 @@ require('head.php');
   }
     $sql_1 = "select distinct pid from Status where author='$uname' and judgeStatus='Accepted' order by pid;";
 	$result_1 = $DB->query($sql_1);
-	$sql ="select pid, problemName, ratio, accepted, submited from ProblemLib where visable='1' order by pid;";
+	$sql ="select pid, problemName, ratio, accepted, submited from ProblemLib where visable=1 order by pid;";
     $resoult = $DB->query($sql);
     $row_1 = "";
     $flag = "";
@@ -39,14 +39,19 @@ require('head.php');
     {
         if($row_1 == "")
         {
-            if($row_1 = $resoult_1->fetch_assoc())
+            if( $resoult_1)
             {
+                $row_1 = $result_1->fetch_assoc();
                 if($row_1['pid'] == $row['pid'])
                 {
                     $flag = "Yes";
                     $row_1 = "";
                 }
                 else $flag = "";
+            }
+            else
+            {
+                $flag = "";   
             }
         }
         else if($row_1['pid'] == $row['pid'])
@@ -55,10 +60,11 @@ require('head.php');
             $row_1 = "";
         }
         else $flag = "";
-		$ID = $row['pid'];
+
+        $ID = $row['pid'];
 		$pid = $row['pid'];
         $pname = $row['problemName'];
-        if($rwo_1)
+    
 		echo "<tr>";
 		echo "<td>".$flag."</td>";
 		echo '<td><a href="/sudaOJ/problem.php?pid='.$ID.'">'.$pid.'</a></td>';
