@@ -24,6 +24,7 @@ require('head.php');
 					<tbody>
 
 <?php
+
   $DB=new mysqli( DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
   if($DB->connect_error)
   {

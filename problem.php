@@ -26,15 +26,23 @@ $result	 = $DB->query($sql);
 		echo "<p><font size=+3>".$row['problemName']."</font></p>";
 		echo "TimeLimit: ".$row['timeLimit']." ms &nbsp; MemoryLimit: ".$row['memeoryLimit']." Megabyte<br>";
 		echo "Totalsubmit: ".$row['submited']." &nbsp; Accepted: ".$row['accepted']."</p>";
-		if($status == "Accepted")
-			echo '<h3 style="color:green">'.$status."</h3>";
+        if($status == "Accepted")
+        {
+            echo "<h3 style='color:green'>$status</h3>";
+            $time_use = $_GET['time'];
+            $memory_use = $_GET['memory'];
+            echo "<h3 style='color:green'>Time: $time_use ms</h3>";
+            echo "<h3 style='color:green'>Memory: $memory_use Kb</h3>";
+        }
 		if($status == "Wrong Answer")
 			echo '<h3 style="color:red">'.$status."</h3>";
 		if($status == "Compiler Error")
 			echo '<h3 style="color:blue">'.$status."</h3>";
-		if($status == "TLE")
+		if($status == "Time Limit Error")
 			echo '<h3 style="color:red">'.$status."</h3>";
-		if($status == "MLE")
+		if($status == "Memory Limit Error")
+			echo '<h3 style="color:red">'.$status."</h3>";
+		if($status == "Run Time Error")
 			echo '<h3 style="color:red">'.$status."</h3>";
 		echo "</center>";
 		echo "<hr>";
@@ -167,7 +175,7 @@ mysqli_close($DB);
 			<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-				<form role="form" action="submit.php" method="post" enctype="multipart/form-data">
+            <form role="form" action="submit.php?pid=<?php echo $pID; ?>" method="post" enctype="multipart/form-data">
 					<div class="form-group">
 					<label><input type="file" name="code"></label>
 						<label >Compiler</label>
@@ -176,13 +184,6 @@ mysqli_close($DB);
 							<option value="javac">javac</option>
 							<option value="python3">python3</option>
 						</select>
-					</div>
-					<div class="form-group">
-				<?php
-					echo '<select name="pid">';
-					echo '<option value="'.$ID.'" selected="selected">'.$ID.'</option>';
-					echo '</select>';
-				?>
 					</div>
 					<div class="form-group">
 					<button type="submit" class="btn btn-md btn-primary" style="margin-left:0px;">Submit</button>

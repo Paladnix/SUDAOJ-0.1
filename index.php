@@ -1,5 +1,4 @@
-<?php
-include_once('head.php');?>
+<?php include_once('head.php'); ?>
 
 <div class="container">
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -30,9 +29,7 @@ include_once('head.php');?>
       </div>
 </div>
  
-<?php 
-include_once('foot.php');
-?>
+<?php include_once('foot.php'); ?>
 
 
 

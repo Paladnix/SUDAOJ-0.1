@@ -42,3 +42,49 @@
 #未来规划：
 - 多线程测评
 - 分布式测评
+
+
+# 服务器端文件存储：
+
+localhost/
+ \_ *.php
+ \_ *.html
+ \_ core/
+     \_ judge.sh
+
+
+/home/
+ \_ judgeadmin/
+
+     \_ problemIO/
+
+         \_ proID/
+
+             \_ IN
+             \_ OUT
+
+     \_ userCode/
+
+         \_ runID/
+
+             \_ runID.cpp
+             \_ class.java
+             \_ runID.py
+
+
+/home/
+\_ judge/
+
+    \_ userOut/
+       
+        \_ runID.out
+    
+    \_ userExe/
+
+        \_ runID
+        \_ class
+
+
+# 用户
+    judgeadmin 做为网站主要用户
+    judge 作为群组用户，权限较低。
