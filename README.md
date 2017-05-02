@@ -4,9 +4,16 @@
 - E-mail: Paladnix@outlook.com
 - Team: Soochow University Microsoft Students Club(SUMSC)
 
-# 第一版，主要做部件功能探测，整体框架熟悉，为第二版本打基础。
-# 第二版本将使用PHP微框架Husky开发，并在开发过程中不断优化Husky框架。
-# SUDAOJ-0.2 (Coding...): https://github.com/SUMSC/SUDAOJ.git
+ 第一版，主要做部件功能探测，整体框架熟悉，为第二版本打基础。
+ 
+ 第二版本将使用PHP微框架Husky开发，并在开发过程中不断优化Husky框架。
+ 
+ SUDAOJ-0.2 (Coding...):
+ 
+ https://github.com/Paladnix/SUDAOJ-0.2.git
+ 
+ https://github.com/SUMSC/SUDAOJ-0.2.git
+ 
 
 
 
